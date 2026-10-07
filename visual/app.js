@@ -865,6 +865,116 @@ async function processVoiceRequest(text) {
           text
         );
 
+      /*
+       * Allow changing only the end date.
+       * Example:
+       * "I want to rent it until the 19th of October."
+       */
+
+      /*
+       * Allow changing only the end date.
+       * Supported examples:
+       * "until the 19th of October"
+       * "until 19 October"
+       * "until October 19"
+       * "until October 19th"
+       * "until the end of October"
+       */
+
+      let partialEndDate = null;
+
+      const endDateDayFirstMatch =
+        lowerText.match(
+          /\b(?:until|through|till)\s+(?:the\s+)?(\d{1,2})(?:st|nd|rd|th)?(?:\s+of)?\s+(january|february|march|april|may|june|july|august|september|october|november|december)\b/i
+        );
+
+      const endDateMonthFirstMatch =
+        lowerText.match(
+          /\b(?:until|through|till)\s+(?:the\s+)?(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})(?:st|nd|rd|th)?\b/i
+        );
+
+      const endOfMonthMatch =
+        lowerText.match(
+          /\b(?:until|through|till)\s+(?:the\s+)?end\s+of\s+(january|february|march|april|may|june|july|august|september|october|november|december)\b/i
+        );
+
+      if (endDateDayFirstMatch) {
+        const month =
+          monthNumber(endDateDayFirstMatch[2]);
+
+        const day =
+          normalizeDay(endDateDayFirstMatch[1]);
+
+        partialEndDate =
+          createIsoDate(
+            2026,
+            month,
+            day
+          );
+      } else if (endDateMonthFirstMatch) {
+        const month =
+          monthNumber(endDateMonthFirstMatch[1]);
+
+        const day =
+          normalizeDay(endDateMonthFirstMatch[2]);
+
+        partialEndDate =
+          createIsoDate(
+            2026,
+            month,
+            day
+          );
+      } else if (endOfMonthMatch) {
+        const month =
+          monthNumber(endOfMonthMatch[1]);
+
+        const lastDay =
+          new Date(
+            2026,
+            month,
+            0
+          ).getDate();
+
+        partialEndDate =
+          createIsoDate(
+            2026,
+            month,
+            lastDay
+          );
+      }
+
+      if (
+        partialEndDate &&
+        conversationState.startDate
+      ) {
+        if (
+          partialEndDate <
+          conversationState.startDate
+        ) {
+          speak(
+            "The end date cannot be before the start date. Please give me the end date again."
+          );
+
+          voiceStatus.textContent =
+            "Waiting for valid end date.";
+
+          return;
+        }
+
+        conversationState.endDate =
+          partialEndDate;
+
+        conversationState.awaitingConfirmation =
+          false;
+
+        conversationState.step =
+          "collecting";
+
+        await continueBookingFlow();
+
+        return;
+      }
+
       if (
         mentionsDate &&
         !newDates
