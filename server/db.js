@@ -1,8 +1,12 @@
 const Database = require("better-sqlite3");
 const path = require("path");
+const fs = require("fs");
 
 // Store the SQLite database in the project's data directory.
-const dbPath = path.join(__dirname, "..", "data", "rental.db");
+const dataDir = path.join(__dirname, "..", "data");
+fs.mkdirSync(dataDir, { recursive: true });
+
+const dbPath = path.join(dataDir, "rental.db");
 const db = new Database(dbPath);
 
 // Enable foreign key constraints in SQLite.
@@ -37,14 +41,14 @@ db.exec(`
         FOREIGN KEY (equipment_id)
         REFERENCES equipment(id)
     );
-    `);
+`);
 
 // Add the initial equipment if the database is empty.
 const equipmentCount = db
     .prepare("SELECT COUNT(*) AS count FROM equipment")
     .get();
 
-    if (equipmentCount.count === 0) {
+if (equipmentCount.count === 0) {
     const insertEquipment = db.prepare(`
         INSERT INTO equipment (name, total_quantity)
         VALUES (?, ?)
@@ -60,7 +64,7 @@ const reservationCount = db
     .prepare("SELECT COUNT(*) AS count FROM reservations")
     .get();
 
-    if (reservationCount.count === 0) {
+if (reservationCount.count === 0) {
     const reservation = db
         .prepare(`
         INSERT INTO reservations (status)
@@ -78,11 +82,11 @@ const reservationCount = db
 
     db.prepare(`
         INSERT INTO reservation_items (
-        reservation_id,
-        equipment_id,
-        quantity,
-        start_date,
-        end_date
+            reservation_id,
+            equipment_id,
+            quantity,
+            start_date,
+            end_date
         )
         VALUES (?, ?, ?, ?, ?)
     `).run(
