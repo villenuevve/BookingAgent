@@ -851,9 +851,6 @@ async function processVoiceRequest(text) {
       const newEquipment =
         detectEquipment(text);
 
-      const newDates =
-        extractDates(text);
-
       /*
        * Corrections have priority over "no".
        * Example:
@@ -974,6 +971,9 @@ async function processVoiceRequest(text) {
 
         return;
       }
+
+      const newDates =
+        extractDates(text);
 
       if (
         mentionsDate &&
