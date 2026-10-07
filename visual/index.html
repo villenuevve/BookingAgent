@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Equipment Booking Agent</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+
+    <header class="header">
+      <div>
+        <p class="eyebrow">EQUIPMENT RENTAL</p>
+        <h1>Voice Booking Agent</h1>
+        <p class="subtitle">
+          Book equipment by voice and check availability in real time.
+        </p>
+      </div>
+
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        System online
+      </div>
+    </header>
+
+    <section class="panel voice-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Voice assistant</h2>
+          <p id="voiceStatus">Ready to start</p>
+        </div>
+
+        <div>
+          <button id="startVoiceButton" class="primary-button">
+            Start voice assistant
+          </button>
+          <button id="resetDemoButton" class="secondary-button">
+            Reset demo
+          </button>
+        </div>
+      </div>
+
+      <div id="conversation" class="conversation">
+        <div class="empty-state">
+          <p>Your conversation will appear here.</p>
+          <span>Press the button to start.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="bookingSummaryPanel">
+      <div class="panel-header">
+        <div>
+          <h2>Booking summary</h2>
+          <p id="summaryStatus">No booking selected</p>
+        </div>
+      </div>
+
+      <div id="bookingSummary" class="booking-summary">
+        Select equipment or start the voice assistant.
+      </div>
+
+      <div id="visualBookingForm" class="visual-booking-form" hidden>
+        <div class="form-row">
+          <label>
+            Quantity
+            <input id="visualQuantity" type="number" min="1" value="1">
+          </label>
+
+          <label>
+            Start date
+            <input id="visualStartDate" type="date">
+          </label>
+
+          <label>
+            End date
+            <input id="visualEndDate" type="date">
+          </label>
+        </div>
+
+        <button id="checkVisualAvailability" class="primary-button">
+          Check availability
+        </button>
+
+        <button id="confirmVisualBooking" class="primary-button" hidden>
+          Confirm booking
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 id="inventoryTitle">Availability</h2>
+          <p id="inventorySubtitle">Select rental dates to see availability</p>
+        </div>
+
+        <button id="refreshButton" class="secondary-button">
+          Refresh
+        </button>
+      </div>
+
+      <div id="equipmentList" class="equipment-grid">
+        Loading...
+      </div>
+    </section>
+
+    <section class="panel" id="bookingSummaryPanel">
+      <div class="panel-header">
+        <div>
+          <h2>Booking summary</h2>
+          <p id="summaryStatus">No booking selected</p>
+        </div>
+      </div>
+
+      <div id="bookingSummary" class="booking-summary">
+        Select equipment or start the voice assistant.
+      </div>
+
+      <div id="visualBookingForm" class="visual-booking-form" hidden>
+        <div class="form-row">
+          <label>
+            Quantity
+            <input id="visualQuantity" type="number" min="1" value="1">
+          </label>
+
+          <label>
+            Start date
+            <input id="visualStartDate" type="date">
+          </label>
+
+          <label>
+            End date
+            <input id="visualEndDate" type="date">
+          </label>
+        </div>
+
+        <button id="checkVisualAvailability" class="primary-button">
+          Check availability
+        </button>
+
+        <button id="confirmVisualBooking" class="primary-button" hidden>
+          Confirm booking
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2>Reservations</h2>
+          <p>Confirmed bookings</p>
+        </div>
+      </div>
+
+      <div id="reservationList" class="reservation-list">
+        Loading...
+      </div>
+    </section>
+
+  </main>
+
+  <script src="date-utils.js"></script>
+  <script src="date-parser.js"></script>
+  <script src="booking-flow.js"></script>
+  <script src="voice-handler.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

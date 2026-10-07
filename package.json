@@ -1,0 +1,17 @@
+{
+    "name": "voice-equipment-agent",
+    "version": "1.0.0",
+    "description": "Browser-based voice agent for equipment rental booking",
+    "main": "server/server.js",
+    "scripts": {
+        "start": "node server/server.js",
+        "dev": "nodemon server/server.js"
+    },
+    "dependencies": {
+        "better-sqlite3": "^12.4.1",
+        "express": "^5.1.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.14"
+    }
+}
