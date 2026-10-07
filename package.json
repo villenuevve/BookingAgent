@@ -5,7 +5,8 @@
     "main": "server/server.js",
     "scripts": {
         "start": "node server/server.js",
-        "dev": "nodemon server/server.js"
+        "dev": "nodemon server/server.js",
+        "test": "node tests/booking.test.js"
     },
     "dependencies": {
         "better-sqlite3": "^12.4.1",
