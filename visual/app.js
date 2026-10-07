@@ -67,11 +67,18 @@ function speak(text) {
 
   window.speechSynthesis.cancel();
 
+  const turnEndTime = performance.now();
+
   const utterance =
     new SpeechSynthesisUtterance(text);
 
   utterance.lang = "en-US";
   utterance.rate = 1;
+
+  utterance.onstart = () => {
+    const latency = performance.now() - turnEndTime;
+    console.log(`Turn-end to first-audio: ${latency.toFixed(0)} ms`);
+  };
 
   window.speechSynthesis.speak(utterance);
 
